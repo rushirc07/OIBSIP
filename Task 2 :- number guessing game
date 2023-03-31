@@ -1,0 +1,123 @@
+
+
+
+
+import java.util.Random;
+
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    private static final int MAX_GUESSES = 10;
+
+    private static final int MIN_NUMBER = 1;
+
+    private static final int MAX_NUMBER = 100;
+
+    private int numberToGuess;
+
+    private int numberOfGuesses;
+
+    private boolean hasWon;
+
+    private Scanner scanner;
+
+    public NumberGuessingGame() {
+
+        Random random = new Random();
+
+        this.numberToGuess = random.nextInt(MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
+
+        this.numberOfGuesses = 0;
+
+        this.hasWon = false;
+
+        this.scanner = new Scanner(System.in);
+
+    }
+
+    public void play() {
+
+        System.out.println("Welcome to the Number Guessing Game! You have " + MAX_GUESSES + " guesses to guess the number between " + MIN_NUMBER + " and " + MAX_NUMBER + ".");
+
+        while (this.numberOfGuesses < MAX_GUESSES) {
+
+            int guess = getGuess();
+
+            this.numberOfGuesses++;
+
+            if (guess == this.numberToGuess) {
+
+                System.out.println("Congratulations! You guessed the number in " + this.numberOfGuesses + " guesses.");
+
+                this.hasWon = true;
+
+                break;
+
+            } else if (guess < this.numberToGuess) {
+
+                System.out.println("Your guess is too low. Try again.");
+
+            } else {
+
+                System.out.println("Your guess is too high. Try again.");
+
+            }
+
+        }
+
+        if (!this.hasWon) {
+
+            System.out.println("Sorry, you ran out of guesses. The number was " + this.numberToGuess + ".");
+
+        }
+
+        this.scanner.close();
+
+    }
+
+    private int getGuess() {
+
+        int guess;
+
+        while (true) {
+
+            try {
+
+                System.out.print("Guess #" + (this.numberOfGuesses + 1) + ": ");
+
+                guess = this.scanner.nextInt();
+
+                if (guess < MIN_NUMBER || guess > MAX_NUMBER) {
+
+                    System.out.println("Please enter a number between " + MIN_NUMBER + " and " + MAX_NUMBER + ".");
+
+                } else {
+
+                    break;
+
+                }
+
+            } catch (Exception e) {
+
+                System.out.println("Please enter a valid number.");
+
+                this.scanner.next();
+
+            }
+
+        }
+
+        return guess;
+
+    }
+
+    public static void main(String[] args) {
+
+        NumberGuessingGame game = new NumberGuessingGame();
+
+        game.play();
+
+    }
+
+}
